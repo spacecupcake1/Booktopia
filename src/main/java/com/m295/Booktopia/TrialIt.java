@@ -1,14 +1,14 @@
-package com.m295.Booktopia;
+package com.m295.booktopia;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.m295.Booktopia.Author.Author;
+import com.m295.booktopia.author.Author;
 
 
-public class Test {
+public class TrialIt {
 	
 	@PostMapping("/post")
     public ResponseEntity<String> postData(@RequestBody String data) {

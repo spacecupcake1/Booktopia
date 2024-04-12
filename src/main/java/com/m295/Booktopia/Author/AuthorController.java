@@ -1,4 +1,4 @@
-package com.m295.Booktopia.Author;
+package com.m295.booktopia.author;
 
 import java.util.List;
 

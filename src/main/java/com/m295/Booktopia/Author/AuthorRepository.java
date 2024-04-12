@@ -1,4 +1,4 @@
-package com.m295.Booktopia.Author;
+package com.m295.booktopia.author;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.m295.Booktopia;
+package com.m295.booktopia;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
