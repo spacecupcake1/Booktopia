@@ -1,4 +1,4 @@
-package com.example.Booktopia.Author;
+package com.m295.Booktopia.Author;
 
 import jakarta.persistence.*;
 import lombok.Data;
