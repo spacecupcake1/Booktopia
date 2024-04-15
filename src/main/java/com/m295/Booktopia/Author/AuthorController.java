@@ -28,9 +28,9 @@ public class AuthorController {
     }
 
     @PostMapping("/author")
-    public ResponseEntity<Author> newPeople(@Valid @RequestBody Author author) {
-        Author savedPeople = authorService.insertAuthor(author);
-        return new ResponseEntity<>(savedPeople, HttpStatus.OK);
+    public ResponseEntity<Author> newAuthor(@Valid @RequestBody Author author) {
+        Author savedAuthor = authorService.insertAuthor(author);
+        return new ResponseEntity<>(savedAuthor, HttpStatus.OK);
     }
 
 }

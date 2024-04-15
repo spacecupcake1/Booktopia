@@ -1,4 +1,4 @@
-package com.m295.booktopia;
+package com.m295.booktopia.dataacess;
 
 import org.springframework.boot.jdbc.DataSourceBuilder;
 

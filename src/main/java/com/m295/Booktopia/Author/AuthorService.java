@@ -16,7 +16,7 @@ public class AuthorService {
     }
 
     public List<Author> getAuthor() {
-        return repo.findByOrderByNameAscFirstnameAsc();
+        return repo.findByOrderByFirstnameAscFirstnameAsc();
     }
     
     public Author insertAuthor(Author author) {

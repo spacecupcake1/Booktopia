@@ -19,8 +19,8 @@ public class TrialIt {
 	
 	@PostMapping("/author")
     public String createAuthor(@RequestBody Author author) {
-    	System.out.println("Received Author: " + author.getName());
-        return "Author created with name: " + author.getName() ;
+    	System.out.println("Received Author: " + author.getFirstname());
+        return "Author created with name: " + author.getFirstname() ;
     }
 
 }
