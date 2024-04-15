@@ -1,4 +1,4 @@
-package com.m295.booktopia;
+package com.m295.booktopia.trial;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class TrialIt {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 	
-	@PostMapping("/author")
+	@PostMapping("/add")
     public String createAuthor(@RequestBody Author author) {
     	System.out.println("Received Author: " + author.getFirstname());
         return "Author created with name: " + author.getFirstname() ;

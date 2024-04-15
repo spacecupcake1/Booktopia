@@ -8,5 +8,5 @@ import java.util.List;
 public interface AuthorRepository extends JpaRepository<Author, Long> {
     List<Author> findByOrderByFirstnameAscFirstnameAsc();
 
-	Author save(Author author);
+	//Author save(Author author);
 }
