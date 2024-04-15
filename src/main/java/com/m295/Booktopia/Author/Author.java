@@ -1,7 +1,6 @@
 package com.m295.booktopia.author;
 
-import java.sql.Date;
-
+import java.time.LocalDate;
 import jakarta.persistence.*;
 import lombok.Data;
 import jakarta.validation.constraints.NotEmpty;
@@ -24,8 +23,8 @@ public class Author {
     @NotEmpty
     private String lastname;
     
-    @Column(length = 10, nullable = true)
+    @Column(nullable = true)
     @NotEmpty
-    private Date birthdate;
+    private LocalDate birthdate;
     
 }

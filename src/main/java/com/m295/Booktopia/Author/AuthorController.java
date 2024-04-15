@@ -21,16 +21,18 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
-    @GetMapping("/author")
+    @GetMapping("api/author")
     public ResponseEntity<List<Author>> all() {
         List<Author> result = authorService.getAuthor();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/author")
+    @PostMapping("api/author")
     public ResponseEntity<Author> newAuthor(@Valid @RequestBody Author author) {
         Author savedAuthor = authorService.insertAuthor(author);
         return new ResponseEntity<>(savedAuthor, HttpStatus.OK);
     }
+    
+    
 
 }
