@@ -3,6 +3,8 @@ package com.m295.booktopia.author;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.m295.booktopia.book.Book;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -29,10 +31,5 @@ public class Author {
     @Column(nullable = true)
     @NotEmpty
     private LocalDate birthdate;
-    
-    @ElementCollection
-    @CollectionTable(name = "author_books", joinColumns = @JoinColumn(name = "author_id"))
-    @Column(name = "book_name")
-    private List<String> bookNames;
-    
+
 }
