@@ -55,9 +55,12 @@ public class Book {
     @JoinColumn(name = "author_id")
     private Author author;
     
-    @ManyToOne
-    @JoinColumn(name = "genre_id")
-    private Genre genre;
+    @ManyToMany
+    @JoinTable(
+        name = "book_genre",
+        joinColumns = @JoinColumn(name = "book_id"),
+        inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> genres;
     
     @ManyToOne
     @JoinColumn(name = "award_id")

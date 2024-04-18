@@ -44,8 +44,11 @@ public class BookService {
         book.setAuthor(author);
 
         // Save genre
-        Genre genre = genreRepo.save(book.getGenre());
-        book.setGenre(genre);
+        List<Genre> genres = new ArrayList<>();
+        for (Genre genre : book.getGenres()) {
+            genres.add(genreRepo.save(genre));
+        }
+        book.setGenres(genres);
 
         // Save award
         Award award = awardRepo.save(book.getAward());
@@ -57,12 +60,30 @@ public class BookService {
 
     public Book updateBook(Long id, Book book) {
         Book existingBook = getBookById(id);
-        // Update existingBook with the fields from book and save
+
+        // Update existingBook with the fields from book
         existingBook.setName(book.getName());
         existingBook.setSeries(book.getSeries());
-        // Update other fields similarly
+        existingBook.setPage(book.getPage());
+        existingBook.setReleaseDate(book.getReleaseDate());
+        existingBook.setDescription(book.getDescription());
+
+        // Update author
+        Author author = authorRepo.save(book.getAuthor());
+        existingBook.setAuthor(author);
+
+        // Update genre
+        List<Genre> genre = genreRepo.saveAll(book.getGenres());
+        existingBook.setGenres(genre);
+
+        // Update award
+        Award award = awardRepo.save(book.getAward());
+        existingBook.setAward(award);
+
+        // Save and return the updated book
         return bookRepo.save(existingBook);
     }
+
 
     public void deleteBook(Long id) {
         Book book = getBookById(id);
