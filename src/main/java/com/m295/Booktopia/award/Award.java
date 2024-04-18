@@ -21,10 +21,13 @@ public class Award {
     @NotEmpty
     private String name;
     
-    @Column(length = 100, nullable = false)
-    @Size(max = 100)
-    @NotEmpty
-    private String type;
+	/*
+	 * @Column(length = 100, nullable = false)
+	 * 
+	 * @Size(max = 100)
+	 * 
+	 * @NotEmpty private String type;
+	 */
     
     @Column(length = 4, nullable = false)
     @Size(max = 5)
