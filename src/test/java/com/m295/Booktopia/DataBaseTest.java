@@ -21,9 +21,10 @@ class DataBaseTests {
     private AuthorRepository authorRepository;
 
     @Test
-    void insertAuthor() {
-    	 Author objAuthor = this.authorRepository.save(new Author());
+    void createAuthor() {
+    	Author objAuthor = this.authorRepository.save(new Author(14L, "Micheal", "Bram", LocalDate.of(1960, 7, 11)));
          Assertions.assertNotNull(objAuthor.getId());
      }
+    
 }
 

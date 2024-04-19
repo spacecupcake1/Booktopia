@@ -14,7 +14,8 @@ import jakarta.validation.constraints.Size;
 @Data
 @Entity
 public class Author {
-    @Id
+    
+	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     
@@ -31,5 +32,17 @@ public class Author {
     @Column(nullable = true)
     @NotEmpty
     private LocalDate birthdate;
+    
+    public Author(Long id, String firstname, String lastname, LocalDate birthdate) {
+		this.id = id;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.birthdate = birthdate;
+	}
+
+	public Author() {
+		
+	}
+
 
 }

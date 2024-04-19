@@ -1,12 +1,17 @@
 package com.m295.Booktopia;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,6 +35,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -133,7 +139,95 @@ public class BookControllerTests {
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("A classic novel by Harper Lee")));
     }
+    
+    @Test
+    @Order(value = 3)
+    void testUpdateBook() throws Exception {
 
+    	Author author = new Author();
+    	author.setFirstname("First");
+    	author.setLastname("Last");
+    	author.setBirthdate(LocalDate.parse("1960-07-11"));
+    	authorRepo.save(author);
+
+    	List<Genre> genres = new ArrayList<>();
+    	Genre fictionGenre = new Genre();
+    	fictionGenre.setName("fiction");
+    	genres.add(fictionGenre);
+    	genreRepo.saveAll(genres);
+
+    	Award award = new Award();
+    	award.setName("Awr");
+    	award.setYear(1998);
+    	awardRepo.save(award);
+
+    	// Modify some details in "Series"
+        Book book = new Book();
+        book.setName("Updated Book");
+    	book.setSeries("N/A");
+    	book.setPage(281);
+    	book.setReleaseDate(LocalDate.parse("1960-07-11"));
+    	book.setDescription("A classic novel by Harper Lee");
+    	book.setAuthor(author);
+    	book.setGenres(genres);
+    	book.setAward(award);
+    	
+        Book savedBook = bookRepo.save(book);
+
+        // Perform the update request
+        String accessToken = obtainAccessToken();
+        String body = mapper.writeValueAsString(savedBook);
+
+        api.perform(put("/api/book/{id}", savedBook.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body)
+                .header("Authorization", "Bearer " + accessToken)
+                .with(csrf()))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Updated Book")));
+    }
+
+
+
+	@Test
+    @Order(value = 4)
+    void testGetAllBooks() throws Exception {
+
+        String accessToken = obtainAccessToken();
+
+        api.perform(get("/api/book")
+                .header("Authorization", "Bearer " + accessToken)
+                .with(csrf()))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("A classic novel by Harper Lee")));
+    }
+
+    
+    @Test
+    @Order(value = 5)
+    void testDeleteBook() throws Exception {
+
+    	Book book = new Book();
+     	book.setId(39L);
+     	book.setName("To Kill a Mockingbird");
+     	book.setSeries("N/A");
+     	book.setPage(281);
+     	book.setReleaseDate(LocalDate.parse("1960-07-11"));
+     	book.setDescription("A classic novel by Harper Lee");
+        Book savedBook = bookRepo.save(book);
+         
+        String accessToken = obtainAccessToken();
+
+        api.perform(delete("/api/book/{id}", savedBook.getId())
+        		.header("Authorization", "Bearer " + accessToken)
+                .with(csrf()))
+                .andDo(print()).andExpect(status().isOk());
+
+        // Verify deletion
+        assertFalse(bookRepo.findById(book.getId()).isPresent());
+    }
+
+   
 	
 	 private String obtainAccessToken() {
 
