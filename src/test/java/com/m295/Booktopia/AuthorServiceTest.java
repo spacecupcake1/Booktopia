@@ -46,16 +46,16 @@ public class AuthorServiceTest {
 
 	@Test
 	void findAllAuthors() {
-		List<Author> authorList = new ArrayList<>();
-		authorList.add(authorMock);
+	    List<Author> authorList = new ArrayList<>();
+	    authorList.add(authorMock);
 
-		when(authorRepositoryMock.findAll()).thenReturn(authorList);
+	    when(authorRepositoryMock.findByOrderByFirstnameAscFirstnameAsc()).thenReturn(authorList);
 
-		List<Author> result = authorService.getAllAuthors();
-
-		assertEquals(authorList, result);
-		verify(authorRepositoryMock, times(1)).findAll();
+	    List<Author> result = authorService.getAllAuthors();
+	    assertEquals(authorList, result);
+	    verify(authorRepositoryMock, times(1)).findByOrderByFirstnameAscFirstnameAsc();
 	}
+
 
 	@Test
 	void updateAuthor() {
