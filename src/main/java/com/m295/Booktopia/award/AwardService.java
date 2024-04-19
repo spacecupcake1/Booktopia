@@ -2,6 +2,9 @@ package com.m295.booktopia.award;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.m295.booktopia.book.BookRepository;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +14,10 @@ public class AwardService {
     @Autowired
     private AwardRepository awardRepository;
 
+    public AwardService(AwardRepository awardRepository) {
+    	this.awardRepository = awardRepository;
+    }
+    
     public List<Award> getAllAwards() {
         return awardRepository.findAll();
     }

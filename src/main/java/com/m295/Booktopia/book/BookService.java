@@ -29,7 +29,15 @@ public class BookService {
     @Autowired
     private AwardRepository awardRepo;
 
-    public List<Book> getAllBooks() {
+    @Autowired
+    public BookService(BookRepository bookRepo, AuthorRepository authorRepo, GenreRepository genreRepo, AwardRepository awardRepo) {
+        this.bookRepo = bookRepo;
+        this.authorRepo = authorRepo;
+        this.genreRepo = genreRepo;
+        this.awardRepo = awardRepo;
+    }
+
+	public List<Book> getAllBooks() {
         return bookRepo.findByOrderByNameAsc();
     }
     
