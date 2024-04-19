@@ -17,7 +17,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -191,11 +189,20 @@ public class BookControllerTests {
 
 	@Test
     @Order(value = 4)
-    void testGetAllBooks() throws Exception {
+    void testGetById() throws Exception {
+		
+		Book book = new Book();
+     	book.setId(39L);
+     	book.setName("To Kill a Mockingbird");
+     	book.setSeries("N/A");
+     	book.setPage(281);
+     	book.setReleaseDate(LocalDate.parse("1960-07-11"));
+     	book.setDescription("A classic novel by Harper Lee");
+        Book savedBook = bookRepo.save(book);
 
         String accessToken = obtainAccessToken();
 
-        api.perform(get("/api/book")
+        api.perform(get("/api/book/{id}", savedBook.getId())
                 .header("Authorization", "Bearer " + accessToken)
                 .with(csrf()))
                 .andDo(print()).andExpect(status().isOk())
