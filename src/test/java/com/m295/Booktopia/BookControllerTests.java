@@ -71,6 +71,7 @@ public class BookControllerTests {
     private ObjectMapper mapper;
 
     @Test
+    @Order(value = 1)
     void testSaveVehicle() throws Exception {
 
     	Author author = new Author();
@@ -83,15 +84,16 @@ public class BookControllerTests {
 
     	List<Genre> genres = new ArrayList<>();
     	Genre fictionGenre = new Genre();
+    	fictionGenre.setName("fiction");
     	genres.add(fictionGenre);
-    	Genre dramaGenre = new Genre();
-    	genres.add(dramaGenre);
+    	genreRepo.saveAll(genres);
     	//book.setGenres(genres);
 
 
     	Award award = new Award();
     	award.setName("Awr");
     	award.setYear(1998);
+    	awardRepo.save(award);
     	//book.setAward(award);
     	
     	Book book = new Book();
@@ -115,11 +117,12 @@ public class BookControllerTests {
                         .content(body)
                         .header("Authorization", "Bearer " + accessToken)
                         .with(csrf()))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Test Description")));
+                .andDo(print()).andExpect(status().isCreated())
+                .andExpect(content().string(containsString("A classic novel by Harper Lee")));
     }
     
     @Test
+    @Order(value = 2)
     void testGetBooks() throws Exception {
 
         String accessToken = obtainAccessToken();
@@ -128,7 +131,7 @@ public class BookControllerTests {
         		.header("Authorization", "Bearer " + accessToken)
                         .with(csrf()))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Test Book")));
+                .andExpect(content().string(containsString("A classic novel by Harper Lee")));
     }
 
 	
