@@ -30,9 +30,8 @@ public class AuthorService {
         if (authorRepo.existsById(id)) {
             updatedAuthor.setId(id);
             return authorRepo.save(updatedAuthor);
-        } else {
-            throw new IllegalArgumentException("Author with id " + id + " not found");
         }
+		return updatedAuthor;
     }
 
     public void deleteAuthor(Long id) {
