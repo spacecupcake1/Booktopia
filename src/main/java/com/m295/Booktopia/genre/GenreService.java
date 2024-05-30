@@ -3,6 +3,8 @@ package com.m295.booktopia.genre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.m295.booktopia.award.Award;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -28,5 +30,13 @@ public class GenreService {
     
     public Optional<Genre> getGenreById(Long id) {
         return genreRepo.findById(id);
+    }
+    
+    public Genre updateGenre(Genre genre) {
+        return genreRepo.save(genre);
+    }
+
+    public void deleteGenre(Long id) {
+    	genreRepo.deleteById(id);   
     }
 }

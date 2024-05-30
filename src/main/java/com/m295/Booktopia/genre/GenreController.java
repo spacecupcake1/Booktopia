@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import com.m295.booktopia.author.Author;
 import com.m295.booktopia.security.Roles;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -46,6 +44,20 @@ public class GenreController {
     public ResponseEntity<Genre> createGenre(@Valid @RequestBody Genre genre) {
         Genre createdGenre = genreService.createGenre(genre);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdGenre);
+    }
+    
+    @PutMapping("/api/genre/{id}")
+    @RolesAllowed({Roles.Admin, Roles.Update})
+    public ResponseEntity<Genre> updateGenre(@PathVariable Long id, @RequestBody Genre genre) {
+    	genre.setId(id);
+        return new ResponseEntity<>(genreService.updateGenre(genre), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/api/genre/{id}")
+    @RolesAllowed({Roles.Admin})
+    public ResponseEntity<Void> deleteGenre(@PathVariable Long id) {
+    	genreService.deleteGenre(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
 }
