@@ -2,16 +2,20 @@ package com.m295.booktopia.book;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.m295.booktopia.author.Author;
 import com.m295.booktopia.author.AuthorRepository;
+import com.m295.booktopia.author.AuthorService;
 import com.m295.booktopia.award.Award;
 import com.m295.booktopia.award.AwardRepository;
+import com.m295.booktopia.award.AwardService;
 import com.m295.booktopia.genre.Genre;
 import com.m295.booktopia.genre.GenreRepository;
+import com.m295.booktopia.genre.GenreService;
 import com.m295.booktopia.message.ResourceNotFoundException;
 
 @Service
@@ -22,19 +26,21 @@ public class BookService {
     
     @Autowired
     private AuthorRepository authorRepo;
+    
+    @Autowired
+    private AuthorService authorService;
 
     @Autowired
-    private GenreRepository genreRepo;
+    private GenreService genreService;
 
     @Autowired
-    private AwardRepository awardRepo;
+    private AwardService awardService;
 
     @Autowired
-    public BookService(BookRepository bookRepo, AuthorRepository authorRepo, GenreRepository genreRepo, AwardRepository awardRepo) {
+    public BookService(BookRepository bookRepo) {
         this.bookRepo = bookRepo;
-        this.authorRepo = authorRepo;
-        this.genreRepo = genreRepo;
-        this.awardRepo = awardRepo;
+        ////this.genreRepo = genreRepo;
+        //this.awardRepo = awardRepo;
     }
 
 	public List<Book> getAllBooks() {
@@ -46,8 +52,21 @@ public class BookService {
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found with id " + id));
     }
     
-    public Book createBook(Book book) {
-    	System.out.println(book.getAuthor() + " " + book.getAward());
+    public Book createBook(BookDto bookDto) {
+    	Optional<Author> author =authorService.getAuthorById(bookDto.getAuthorId());
+    	Optional<Award> award =awardService.getAwardById(bookDto.getAwardId());
+    	Optional<Genre> genre =genreService.getGenreById(bookDto.getGenreId());
+    	Book book = new Book(
+    			bookDto.getId(),
+    			bookDto.getName(),
+    			bookDto.getSeries(),
+    			bookDto.getPage(),
+    			bookDto.getReleaseDate(),
+    			bookDto.getDescription(),
+    			author.get(),
+    			genre.get(),
+    			award.get()
+    			);   	
         return bookRepo.save(book);
     }
 

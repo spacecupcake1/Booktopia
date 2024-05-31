@@ -21,12 +21,18 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @Entity
+@AllArgsConstructor
 public class Book {
-    @Id
+    public Book() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     
@@ -59,13 +65,13 @@ public class Book {
     @Cascade(CascadeType.ALL)
     private Author author;
     
-    @ManyToMany
+    @ManyToOne
     @JoinTable(
         name = "book_genre",
         joinColumns = @JoinColumn(name = "book_id"),
         inverseJoinColumns = @JoinColumn(name = "genre_id"))
     @Cascade(CascadeType.ALL)
-    private List<Genre> genres;
+    private Genre genres;
     
     @ManyToOne
     @JoinColumn(name = "award_id")

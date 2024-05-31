@@ -42,7 +42,8 @@ public class BookController {
 
     @PostMapping("api/book")
     @RolesAllowed({Roles.Admin})
-    public ResponseEntity<Book> createBook(@RequestBody Book book) {
+    public ResponseEntity<Book> createBook(@RequestBody BookDto book) {
+    	System.out.println(book);
         Book createdBook = bookService.createBook(book);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
     }

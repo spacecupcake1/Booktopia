@@ -86,11 +86,9 @@ public class BookControllerTests {
     	//book.setAuthor(author);
 
 
-    	List<Genre> genres = new ArrayList<>();
-    	Genre fictionGenre = new Genre();
-    	fictionGenre.setName("fiction");
-    	genres.add(fictionGenre);
-    	genreRepo.saveAll(genres);
+    	Genre genres = new Genre();
+    	genres.setName("fiction");
+    	genreRepo.save(genres);
     	//book.setGenres(genres);
 
 
@@ -148,11 +146,9 @@ public class BookControllerTests {
     	author.setBirthdate(LocalDate.parse("1960-07-11"));
     	authorRepo.save(author);
 
-    	List<Genre> genres = new ArrayList<>();
     	Genre fictionGenre = new Genre();
     	fictionGenre.setName("fiction");
-    	genres.add(fictionGenre);
-    	genreRepo.saveAll(genres);
+    	genreRepo.save(fictionGenre);
 
     	Award award = new Award();
     	award.setName("Awr");
@@ -167,7 +163,7 @@ public class BookControllerTests {
     	book.setReleaseDate(LocalDate.parse("1960-07-11"));
     	book.setDescription("A classic novel by Harper Lee");
     	book.setAuthor(author);
-    	book.setGenres(genres);
+    	book.setGenres(fictionGenre);
     	book.setAward(award);
     	
         Book savedBook = bookRepo.save(book);
