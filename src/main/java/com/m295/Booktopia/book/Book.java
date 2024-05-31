@@ -3,6 +3,9 @@ package com.m295.booktopia.book;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import com.m295.booktopia.author.Author;
 import com.m295.booktopia.award.Award;
 import com.m295.booktopia.genre.Genre;
@@ -53,6 +56,7 @@ public class Book {
     
     @ManyToOne
     @JoinColumn(name = "author_id")
+    @Cascade(CascadeType.ALL)
     private Author author;
     
     @ManyToMany
@@ -60,9 +64,12 @@ public class Book {
         name = "book_genre",
         joinColumns = @JoinColumn(name = "book_id"),
         inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    @Cascade(CascadeType.ALL)
     private List<Genre> genres;
     
     @ManyToOne
     @JoinColumn(name = "award_id")
+    @Cascade(CascadeType.ALL)
     private Award award;
+
 }

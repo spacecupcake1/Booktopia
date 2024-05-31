@@ -50,7 +50,7 @@ public class BookController {
     @PutMapping("api/book/{id}")
     @RolesAllowed({Roles.Admin, Roles.Update})
     public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
-        Book updatedBook = bookService.updateBook(id, book);
+        Book updatedBook = bookService.updateBook(book, id);
         return ResponseEntity.ok().body(updatedBook);
     }
 

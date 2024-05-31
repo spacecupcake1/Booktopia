@@ -45,53 +45,65 @@ public class BookService {
         return bookRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found with id " + id));
     }
-
+    
     public Book createBook(Book book) {
-        // Save genre
-        Author author = authorRepo.save(book.getAuthor());
-        book.setAuthor(author);
-
-        // Save genre
-        List<Genre> genres = new ArrayList<>();
-        for (Genre genre : book.getGenres()) {
-            genres.add(genreRepo.save(genre));
-        }
-        book.setGenres(genres);
-
-        // Save award
-        Award award = awardRepo.save(book.getAward());
-        book.setAward(award);
-
-        // Save book
+    	System.out.println(book.getAuthor() + " " + book.getAward());
         return bookRepo.save(book);
     }
 
-    public Book updateBook(Long id, Book book) {
-        Book existingBook = getBookById(id);
-
-        // Update existingBook with the fields from book
-        existingBook.setName(book.getName());
-        existingBook.setSeries(book.getSeries());
-        existingBook.setPage(book.getPage());
-        existingBook.setReleaseDate(book.getReleaseDate());
-        existingBook.setDescription(book.getDescription());
-
-        // Update author
-        Author author = authorRepo.save(book.getAuthor());
-        existingBook.setAuthor(author);
-
-        // Update genre
-        List<Genre> genre = genreRepo.saveAll(book.getGenres());
-        existingBook.setGenres(genre);
-
-        // Update award
-        Award award = awardRepo.save(book.getAward());
-        existingBook.setAward(award);
-
-        // Save and return the updated book
-        return bookRepo.save(existingBook);
+    public Book updateBook(Book book, Long id) {
+        return bookRepo.findById(id)
+                .map(existingBook -> {
+                    existingBook.setName(book.getName());
+                    existingBook.setSeries(book.getSeries());
+                    existingBook.setPage(book.getPage());
+                    existingBook.setReleaseDate(book.getReleaseDate());
+                    existingBook.setDescription(book.getDescription());
+                    existingBook.setAuthor(book.getAuthor());
+                    existingBook.setAward(book.getAward());
+                    existingBook.setGenres(book.getGenres());
+                    return bookRepo.save(existingBook);
+                })
+                .orElseGet(() ->
+                bookRepo.save(book));
     }
 
+
+
+	/*
+	 * public Book createBook(Book book) { // Save genre Author author =
+	 * authorRepo.save(book.getAuthor()); book.setAuthor(author);
+	 * 
+	 * // Save genre List<Genre> genres = new ArrayList<>(); for (Genre genre :
+	 * book.getGenres()) { genres.add(genreRepo.save(genre)); }
+	 * book.setGenres(genres);
+	 * 
+	 * // Save award Award award = awardRepo.save(book.getAward());
+	 * book.setAward(award);
+	 * 
+	 * // Save book return bookRepo.save(book); }
+	 * 
+	 * public Book updateBook(Long id, Book book) { Book existingBook =
+	 * getBookById(id);
+	 * 
+	 * // Update existingBook with the fields from book
+	 * existingBook.setName(book.getName());
+	 * existingBook.setSeries(book.getSeries());
+	 * existingBook.setPage(book.getPage());
+	 * existingBook.setReleaseDate(book.getReleaseDate());
+	 * existingBook.setDescription(book.getDescription());
+	 * 
+	 * // Update author Author author = authorRepo.save(book.getAuthor());
+	 * existingBook.setAuthor(author);
+	 * 
+	 * // Update genre List<Genre> genre = genreRepo.saveAll(book.getGenres());
+	 * existingBook.setGenres(genre);
+	 * 
+	 * // Update award Award award = awardRepo.save(book.getAward());
+	 * existingBook.setAward(award);
+	 * 
+	 * // Save and return the updated book return bookRepo.save(existingBook); }
+	 */
 
     public void deleteBook(Long id) {
         Book book = getBookById(id);
